@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>test QRCode</title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="static/js/qrcode.min.js"></script>
+</head>
+
+<body>
+    <h1 style="text-align: center;margin-bottom:40px">Generation and Download</h1>
+    <div id="aff" style="width: 255px; height: 305px;" title="payload">
+        <p>payload</p>
+	</div></br>
+	<a id="btn-Convert-Html2Image" href="#" style="">Download</a></br>
+	<div id="aff2" style="width: 255px; height: 305px;" title="entete">	
+        <p>header/signature</p>
+	</div></br>
+	<a id="btn-Convert-Html2Image2" href="#" style="" >Download</a>
+   	
+
+		<script>
+			
+			var payload;
+			var entete;
+			var data = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAxIiwibmFtZSI6IkFyaWVsIFNhdWxuaWVyIiwicGFzcyI6ImNvbmNlcnQifQ.xk59xPz7uGOnf_S8LwKaFiEW2ge6iuRnqAAv3Hw-WkE";
+			function divideToken(data){
+				
+				var point1=0;
+				var point2=0;
+				payload = "";
+				entete = "";
+
+				for (let i = 0; i < data.length; i++) {
+					if (data[i] == "."){
+						if(point1 == 0){
+							point1 = i;
+						}
+						else{
+							point2 = i;
+						}
+					}	
+				}
+
+				payload = data.slice(point1,point2);
+				entete = data.slice(0,point1)+data.slice(point2);
+			}
+
+			divideToken(data);
+			
+			var aff = new QRCode(document.getElementById("aff"));
+			var aff2 = new QRCode(document.getElementById("aff2"));
+			aff.makeCode(payload);
+			aff2.makeCode(entete);
+			
+			
+		</script>
+	
+	
+	
+   	
+	<script src="static/js/downloadQR.js"></script>
+</body>
+
+</html>
